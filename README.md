@@ -18,7 +18,6 @@ Supports .mp3, .wav, .ogg, .xm, .mod, .flac (if raylib was built with .flac supp
 ## TODO
 
 * Seems like there's some frame weirdness that needs investigating
-* Also, looks like the rectangles get drawn off the window. Would like to set the max height to about 80% of the distance from the bottom of the rects to the top of the window.
 * Playlist support
 
 ## Acknowledgements

@@ -2,7 +2,9 @@
 
 set -xe
 
-CFLAGS="-Wall -Wextra `pkg-config --cflags raylib`"
+CFLAGS="-Wall -Wextra -ggdb `pkg-config --cflags raylib`"
 LIBS="`pkg-config --libs raylib` -lglfw -lm -ldl -lpthread"
 
-clang $CFLAGS -o muzakviz main.c $LIBS
+mkdir -p ./build
+clang $CFLAGS -fPIC -shared -o ./build/libplug.so ./src/plug.c $LIBS
+clang $CFLAGS -o ./build/muzakviz ./src/main.c $LIBS

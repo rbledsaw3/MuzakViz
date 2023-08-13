@@ -5,8 +5,12 @@
 #include <math.h>
 #include <memory.h>
 #include <unistd.h>
+
 #include <raylib.h>
 
+#include <dlfcn.h> // POSIX Dependency
+
+#include "plug.h"
 
 #define N 64
 float in[N] = {0};
@@ -69,9 +73,25 @@ void callback(void* bufferData, unsigned int frames) {
     }
 }
 
+plug_hello_t plug_hello = NULL;
 
 int main(int argc, char* argv[]) {
-    
+
+    const char* libplug_file_name = "libplug.so";
+    void* libplug = dlopen(libplug_file_name, RTLD_NOW);
+    if (libplug == NULL) {
+        fprintf(stderr, "ERROR: could not load %s: %s\n", libplug_file_name, dlerror());
+        return 1;
+    }
+
+    plug_hello = dlsym(libplug, "plug_hello");
+    if (plug_hello == NULL) {
+        fprintf(stderr, "ERROR: could not find plug_hello in %s: %s\n", libplug_file_name, dlerror());
+        return 1;
+    }
+
+    plug_hello();
+
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <path_to_mp3_file>\n", argv[0]);
         return 1;
@@ -109,8 +129,8 @@ int main(int argc, char* argv[]) {
         ClearBackground(CLITERAL(Color) {0x18, 0x18, 0x18, 0xFF});
         float cell_width = (float) w/N;
         for (size_t i = 0; i < N; ++i) {
-            float t = amp(out[i]);
-            DrawRectangleGradientV (i*cell_width, h*.75 - h/2*t, cell_width, h/2*t, RED, MAROON);        
+            float t = amp(out[i])/max_amp;
+            DrawRectangleGradientV (i*cell_width, h*.6 - h/2*t, cell_width, h/2*t, RED, MAROON);        
         }
         EndDrawing();
     }
