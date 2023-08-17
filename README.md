@@ -10,7 +10,7 @@ A music visualizer written in C using raylib based on Tsoding's streams.
 ## Usage
 
 ```
-./muzakviz path_to_music_file.mp3
+LD_LIBRARY_PATH=./build ./build/muzakviz path_to_music_file.mp3
 ```
 
 Supports .mp3, .wav, .ogg, .xm, .mod, .flac (if raylib was built with .flac support)
