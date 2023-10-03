@@ -93,7 +93,7 @@ void plug_update(Plug *plug) {
     float cell_width = (float) w/N;
     for (size_t i = 0; i < N; ++i) {
         float t = amp(out[i])/max_amp;
-        DrawRectangleGradientV(i*cell_width, h*.75 - h/2*t, cell_width, h/2*t, RED, MAROON);
+        DrawRectangleGradientV(i*cell_width, h*.75 - h/2*t, cell_width, h/2*t, MAROON, RED);
     }
     EndDrawing();
     

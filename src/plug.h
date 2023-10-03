@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <raylib.h>
 
-#define N 256
+#define N 32
 
 
 typedef struct {
