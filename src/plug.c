@@ -36,8 +36,9 @@ void fft(float in[], float complex out[], size_t n, size_t stride) {
 float amp(float complex z) {
   float a = fabsf(crealf(z));
   float b = fabsf(cimagf(z));
-  if (a < b)
+  if (a < b) {
     return b;
+  }
   return a;
 }
 
@@ -55,7 +56,7 @@ void callback(void* bufferData, unsigned int frames) {
 
 void plug_init(Plug* plug, const char* file_path) {
   plug->music = LoadMusicStream(file_path);
-  SetMusicVolume(plug->music, 0.5f);
+  SetMusicVolume(plug->music, 0.5F);
   PlayMusicStream(plug->music);
   AttachAudioStreamProcessor(plug->music.stream, callback);
 }
@@ -79,7 +80,7 @@ void plug_update(Plug* plug) {
 
   fft(in, out, N, 1);
 
-  float max_amp = 0.0f;
+  float max_amp = 0.0F;
   for (size_t i = 0; i < N; ++i) {
     float a = amp(out[i]);
     if (max_amp < a) {

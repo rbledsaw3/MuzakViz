@@ -25,19 +25,28 @@ bool reload_libplug(void) {
 
   libplug = dlopen(libplug_file_name, RTLD_NOW);
   if (libplug == NULL) {
-    fprintf(stderr, "ERROR: could not load %s: %s\n", libplug_file_name, dlerror());
+    if (fprintf(stderr, "ERROR: could not load %s: %s\n", libplug_file_name, dlerror()) < 0) {
+      perror("fprintf failed");
+      return false;
+    }
     return false;
   }
 
   plug_init = dlsym(libplug, "plug_init");
   if (plug_init == NULL) {
-    fprintf(stderr, "ERROR: could not find plug_init in %s: %s\n", libplug_file_name, dlerror());
+    if (fprintf(stderr, "ERROR: could not find plug_init in %s: %s\n", libplug_file_name, dlerror()) < 0) {
+      perror("fprintf failed");
+      return false;
+    }
     return false;
   }
 
   plug_update = dlsym(libplug, "plug_update");
   if (plug_update == NULL) {
-    fprintf(stderr, "ERROR: could not find plug_update in %s: %s\n", libplug_file_name, dlerror());
+    if (fprintf(stderr, "ERROR: could not find plug_update in %s: %s\n", libplug_file_name, dlerror()) < 0) {
+      perror("fprintf failed");
+      return false;
+    }
     return false;
   }
 
@@ -50,7 +59,10 @@ int main(int argc, char* argv[]) {
   }
 
   if (argc != 2) {
-    fprintf(stderr, "Usage: %s <path_to_mp3_file>\n", argv[0]);
+    if (fprintf(stderr, "Usage: %s <path_to_mp3_file>\n", argv[0]) < 0) {
+      perror("fprintf failed");
+      return false;
+    }
     return 1;
   }
 
